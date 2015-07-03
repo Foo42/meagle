@@ -18,7 +18,7 @@ defmodule RatesMeagle.Mixfile do
   def application do
     [mod: {RatesMeagle, []},
      applications: [:phoenix, :phoenix_html, :cowboy, :logger,
-                    :phoenix_ecto, :postgrex]]
+                    :httpotion]]
   end
 
   # Specifies which paths to compile per environment
@@ -30,10 +30,10 @@ defmodule RatesMeagle.Mixfile do
   # Type `mix help deps` for examples and options
   defp deps do
     [{:phoenix, "~> 0.14"},
-     {:phoenix_ecto, "~> 0.5"},
-     {:postgrex, ">= 0.0.0"},
      {:phoenix_html, "~> 1.1"},
      {:phoenix_live_reload, "~> 0.4", only: :dev},
-     {:cowboy, "~> 1.0"}]
+     {:cowboy, "~> 1.0"},
+     {:ibrowse, github: "cmullaparthi/ibrowse", tag: "v4.1.1"},
+     {:httpotion, "~> 2.1.0"}]
   end
 end
