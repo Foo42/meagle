@@ -11,6 +11,7 @@ defmodule RatesMeagle do
       supervisor(RatesMeagle.Endpoint, []),
       # Start the Ecto repository
       worker(RatesMeagle.Repo, []),
+      supervisor(RatesMeagle.Monitor.Supervisor, [])
       # Here you could define other workers and supervisors as children
       # worker(RatesMeagle.Worker, [arg1, arg2, arg3]),
     ]
