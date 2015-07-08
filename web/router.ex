@@ -18,6 +18,11 @@ defmodule RatesMeagle.Router do
     get "/", PageController, :index
   end
 
+  scope "/status", RatesMeagle do
+    pipe_through :api
+    get "/", StatusController, :index
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", RatesMeagle do
   #   pipe_through :api
