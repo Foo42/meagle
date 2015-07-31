@@ -9,7 +9,7 @@ defmodule RatesMeagle do
     children = [
       # Start the endpoint when the application starts
       supervisor(RatesMeagle.Endpoint, []),
-      supervisor(RatesMeagle.Monitor.Supervisor, [])
+      supervisor(RatesMeagle.ServiceInstanceMonitor.Supervisor, [])
       # Here you could define other workers and supervisors as children
       # worker(RatesMeagle.Worker, [arg1, arg2, arg3]),
     ]
