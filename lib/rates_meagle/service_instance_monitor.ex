@@ -3,9 +3,11 @@ defmodule RatesMeagle.ServiceInstanceMonitor do
   require Logger
   alias RatesMeagle.StatusStore
 
-  def start_link(args \\ []) do
+  def start_link(args) do
     Logger.info "in RatesMeagle.ServiceInstanceMonitor #{inspect args}"
-    GenServer.start_link(__MODULE__,%{supervisor: self(), target: "http://rates-query-int.laterooms.com/status"})
+    %{target: target} = args
+    Logger.info "target = #{target}"
+    GenServer.start_link(__MODULE__,%{supervisor: self(), target: target})
   end
 
   defp schedule_status_check(seconds) do
