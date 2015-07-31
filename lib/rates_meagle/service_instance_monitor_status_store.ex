@@ -1,8 +1,17 @@
-defmodule RatesMeagle.ServiceInstanceMonitor.StatusStore do
+defmodule RatesMeagle.StatusStore do
   require Logger
 
   def start_link do
-    Logger.info "=====================  in StatusStore"
-    Agent.start_link(fn -> HashDict.new end)
+    Logger.info "in StatusStore start_link"
+    Agent.start_link(fn -> %{} end, name: __MODULE__)
+  end
+
+  def store_status(:service_instance, id, status) do
+  	Logger.info "storing status update for #{inspect id}: #{inspect status}"
+  	Agent.update(__MODULE__, &Dict.put(&1, id, %{last_status: status, last_update: :calendar.universal_time()}))
+  end
+
+  def get_all_status do
+  	Agent.get(__MODULE__, fn state -> state end)
   end
 end

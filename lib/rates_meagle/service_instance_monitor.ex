@@ -1,6 +1,7 @@
 defmodule RatesMeagle.ServiceInstanceMonitor do
   use GenServer
   require Logger
+  alias RatesMeagle.StatusStore
 
   def start_link(args \\ []) do
     Logger.info "in RatesMeagle.ServiceInstanceMonitor #{inspect args}"
@@ -15,7 +16,7 @@ defmodule RatesMeagle.ServiceInstanceMonitor do
   def init(args) do
     Logger.info "starting status checker #{inspect self()}"
     GenServer.cast self(), {:begin_checking} 
-    {:ok, %{}}
+    {:ok, args}
   end
 
   def handle_cast({:begin_checking}, state) do
@@ -26,6 +27,7 @@ defmodule RatesMeagle.ServiceInstanceMonitor do
   def handle_info(:check_status_timeout_elapsed, state) do
     Logger.info "in handle info, checking status..."
     result = try_check_status(state)
+    StatusStore.store_status :service_instance, state[:target], result
     Logger.info "result is #{inspect result}"
     schedule_status_check 10
     {:noreply, state |> Dict.put(:last_status, result)}
@@ -33,12 +35,12 @@ defmodule RatesMeagle.ServiceInstanceMonitor do
 
   def handle_info(message, state) do
     Logger.info "recieved other info message: #{inspect message}"
-    
   end
 
   defp try_check_status(state) do
     try do
-      HTTPotion.get state[:target]
+      %{status_code: status_code} = HTTPotion.get state[:target]
+      status_code
     rescue
       e in HTTPotion.HTTPError -> :http_error
     end
