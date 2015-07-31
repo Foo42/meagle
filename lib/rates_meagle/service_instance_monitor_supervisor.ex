@@ -17,8 +17,11 @@ defmodule RatesMeagle.ServiceInstanceMonitor.Supervisor do
 	end
 
 	defp build_workers do
-		RatesMeagle.ServiceInstance.Config.all |> Enum.map fn instance_config -> 
-			worker(RatesMeagle.ServiceInstanceMonitor,[%{target: instance_config}], id: instance_config)
-		end
+		RatesMeagle.Config.all |> 
+			Enum.map(fn {_service, instances} -> instances end) |>
+			List.flatten |>
+			Enum.map(fn instance_config -> 
+				worker(RatesMeagle.ServiceInstanceMonitor,[%{target: instance_config}], id: instance_config)
+			end)
 	end
 end

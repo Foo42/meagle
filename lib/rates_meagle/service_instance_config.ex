@@ -1,5 +1,8 @@
-defmodule RatesMeagle.ServiceInstance.Config do
+defmodule RatesMeagle.Config do
 	def all do
-		["http://rates-query-int.laterooms.com/status", "http://rates-query-qa.laterooms.com/status"]
+		%{"query" => [
+			"http://rates-query-int.laterooms.com/status",
+			"http://rates-query-qa.laterooms.com/status"
+		]}
 	end
 end
