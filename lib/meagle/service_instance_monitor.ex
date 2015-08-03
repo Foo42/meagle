@@ -1,12 +1,11 @@
 defmodule Meagle.ServiceInstanceMonitor do
   use GenServer
   require Logger
-  alias Meagle.StatusStore
+  alias Meagle.StatusUpdates
 
   def start_link(args) do
-    Logger.info "in Meagle.ServiceInstanceMonitor #{inspect args}"
     %{target: target} = args
-    Logger.info "target = #{target}"
+    Logger.info "#{inspect self()} target = #{target}"
     GenServer.start_link(__MODULE__,%{supervisor: self(), target: target})
   end
 
@@ -16,7 +15,6 @@ defmodule Meagle.ServiceInstanceMonitor do
 
   #Server Implementation
   def init(args) do
-    Logger.info "starting status checker #{inspect self()}"
     GenServer.cast self(), {:begin_checking} 
     {:ok, args}
   end
@@ -29,19 +27,28 @@ defmodule Meagle.ServiceInstanceMonitor do
   def handle_info(:check_status_timeout_elapsed, state) do
     Logger.info "in handle info, checking status..."
     result = try_check_status(state)
-    StatusStore.store_status :service_instance, state[:target], result
+    target = state[:target]
+    StatusUpdates.notify_status_update target, result 
     Logger.info "result is #{inspect result}"
     schedule_status_check 10
     {:noreply, state |> Dict.put(:last_status, result)}
   end
 
+  def handle_info({_some_reference, {:error, :req_timedout}}, state) do
+    Logger.info "got some sort of timeout"
+    {:noreply, state}
+  end
+
   def handle_info(message, state) do
     Logger.info "recieved other info message: #{inspect message}"
+    {:noreply, state}
   end
 
   defp try_check_status(state) do
     try do
-      %{status_code: status_code} = HTTPotion.get state[:target]
+      result = HTTPotion.get state[:target]
+      IO.puts "HTTP GET: #{inspect result}"
+      %{status_code: status_code} = result 
       status_code
     rescue
       e in HTTPotion.HTTPError -> :http_error

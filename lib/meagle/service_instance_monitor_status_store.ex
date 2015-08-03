@@ -1,9 +1,19 @@
 defmodule Meagle.StatusStore do
   require Logger
+  alias Meagle.StatusUpdates
 
   def start_link do
     Logger.info "in StatusStore start_link"
-    Agent.start_link(fn -> %{} end, name: __MODULE__)
+    result = Agent.start_link(fn -> %{} end, name: __MODULE__)
+
+    spawn_link fn ->
+      for {id, status} <- StatusUpdates.instance_status_stream do
+        IO.puts "storing from stream..."
+        store_status(:service_instance, id, status)
+      end
+    end
+
+    result
   end
 
   def store_status(:service_instance, id, status) do
