@@ -1,12 +1,12 @@
-defmodule RatesMeagle.Web do
+defmodule Meagle.Web do
   @moduledoc """
   A module that keeps using definitions for controllers,
   views and so on.
 
   This can be used in your application as:
 
-      use RatesMeagle.Web, :controller
-      use RatesMeagle.Web, :view
+      use Meagle.Web, :controller
+      use Meagle.Web, :view
 
   The definitions below will be executed for every view,
   controller, etc, so keep them short and clean, focused
@@ -27,7 +27,7 @@ defmodule RatesMeagle.Web do
       use Phoenix.Controller
 
       # Import URL helpers from the router
-      import RatesMeagle.Router.Helpers
+      import Meagle.Router.Helpers
     end
   end
 
@@ -39,7 +39,7 @@ defmodule RatesMeagle.Web do
       import Phoenix.Controller, only: [get_csrf_token: 0, get_flash: 2, view_module: 1]
 
       # Import URL helpers from the router
-      import RatesMeagle.Router.Helpers
+      import Meagle.Router.Helpers
 
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML

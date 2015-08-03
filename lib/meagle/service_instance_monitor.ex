@@ -1,10 +1,10 @@
-defmodule RatesMeagle.ServiceInstanceMonitor do
+defmodule Meagle.ServiceInstanceMonitor do
   use GenServer
   require Logger
-  alias RatesMeagle.StatusStore
+  alias Meagle.StatusStore
 
   def start_link(args) do
-    Logger.info "in RatesMeagle.ServiceInstanceMonitor #{inspect args}"
+    Logger.info "in Meagle.ServiceInstanceMonitor #{inspect args}"
     %{target: target} = args
     Logger.info "target = #{target}"
     GenServer.start_link(__MODULE__,%{supervisor: self(), target: target})

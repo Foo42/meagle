@@ -1,8 +1,8 @@
-defmodule RatesMeagle.StatusController do
-  use RatesMeagle.Web, :controller
+defmodule Meagle.StatusController do
+  use Meagle.Web, :controller
 
   def index(conn, _params) do
-    status = RatesMeagle.StatusStore.get_all_status |> format_all_status
+    status = Meagle.StatusStore.get_all_status |> format_all_status
 
     json conn, %{status: status, hello: "world"}
   end

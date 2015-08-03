@@ -6,12 +6,12 @@
 use Mix.Config
 
 # Configures the endpoint
-config :rates_meagle, RatesMeagle.Endpoint,
+config :rates_meagle, Meagle.Endpoint,
   url: [host: "localhost"],
   root: Path.dirname(__DIR__),
   secret_key_base: "HCjzXb6A2IwG7Ib8DqNKaYCvaQU7OZAWWOVQKWKGtiG+iYsUeGLr5iKGH3XHvh62",
   render_errors: [default_format: "html"],
-  pubsub: [name: RatesMeagle.PubSub,
+  pubsub: [name: Meagle.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
 # Configures Elixir's Logger

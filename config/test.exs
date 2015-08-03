@@ -2,7 +2,7 @@ use Mix.Config
 
 # We don't run a server during test. If one is required,
 # you can enable the server option below.
-config :rates_meagle, RatesMeagle.Endpoint,
+config :rates_meagle, Meagle.Endpoint,
   http: [port: 4001],
   server: false
 
@@ -10,7 +10,7 @@ config :rates_meagle, RatesMeagle.Endpoint,
 config :logger, level: :warn
 
 # Configure your database
-config :rates_meagle, RatesMeagle.Repo,
+config :rates_meagle, Meagle.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: "postgres",
   password: "postgres",

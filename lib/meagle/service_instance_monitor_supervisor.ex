@@ -1,4 +1,4 @@
-defmodule RatesMeagle.ServiceInstanceMonitor.Supervisor do
+defmodule Meagle.ServiceInstanceMonitor.Supervisor do
 	use Supervisor
 	require Logger
 
@@ -10,18 +10,18 @@ defmodule RatesMeagle.ServiceInstanceMonitor.Supervisor do
 
 	def init(:ok) do
 		children = build_workers
-		Logger.info "RatesMeagle.ServiceInstanceMonitor.Supervisor starting"
+		Logger.info "Meagle.ServiceInstanceMonitor.Supervisor starting"
 		result = supervise(build_workers, strategy: :one_for_one)
-		Logger.info "RatesMeagle.ServiceInstanceMonitor.Supervisor started children #{inspect children}"
+		Logger.info "Meagle.ServiceInstanceMonitor.Supervisor started children #{inspect children}"
 		result
 	end
 
 	defp build_workers do
-		RatesMeagle.Config.all |> 
+		Meagle.Config.all |> 
 			Enum.map(fn {_service, instances} -> instances end) |>
 			List.flatten |>
 			Enum.map(fn instance_config -> 
-				worker(RatesMeagle.ServiceInstanceMonitor,[%{target: instance_config}], id: instance_config)
+				worker(Meagle.ServiceInstanceMonitor,[%{target: instance_config}], id: instance_config)
 			end)
 	end
 end

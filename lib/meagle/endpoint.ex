@@ -1,4 +1,4 @@
-defmodule RatesMeagle.Endpoint do
+defmodule Meagle.Endpoint do
   use Phoenix.Endpoint, otp_app: :rates_meagle
 
   # Serve at "/" the static files from "priv/static" directory.
@@ -32,5 +32,5 @@ defmodule RatesMeagle.Endpoint do
     key: "_rates_meagle_key",
     signing_salt: "BvgAKGil"
 
-  plug :router, RatesMeagle.Router
+  plug :router, Meagle.Router
 end

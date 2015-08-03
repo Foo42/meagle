@@ -1,3 +1,3 @@
-defmodule RatesMeagle.PageView do
-  use RatesMeagle.Web, :view
+defmodule Meagle.PageView do
+  use Meagle.Web, :view
 end

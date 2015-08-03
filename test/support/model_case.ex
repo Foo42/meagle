@@ -1,4 +1,4 @@
-defmodule RatesMeagle.ModelCase do
+defmodule Meagle.ModelCase do
   @moduledoc """
   This module defines the test case to be used by
   model tests.
@@ -17,16 +17,16 @@ defmodule RatesMeagle.ModelCase do
   using do
     quote do
       # Alias the data repository and import query/model functions
-      alias RatesMeagle.Repo
+      alias Meagle.Repo
       import Ecto.Model
       import Ecto.Query, only: [from: 2]
-      import RatesMeagle.ModelCase
+      import Meagle.ModelCase
     end
   end
 
   setup tags do
     unless tags[:async] do
-      Ecto.Adapters.SQL.restart_test_transaction(RatesMeagle.Repo, [])
+      Ecto.Adapters.SQL.restart_test_transaction(Meagle.Repo, [])
     end
 
     :ok

@@ -1,4 +1,4 @@
-defmodule RatesMeagle.StatusPageTest do
+defmodule Meagle.StatusPageTest do
   use ExUnit.Case
 
   test "fetching url" do

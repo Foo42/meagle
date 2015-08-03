@@ -1,5 +1,5 @@
-defmodule RatesMeagle.StatusControllerTests do
-  use RatesMeagle.ConnCase
+defmodule Meagle.StatusControllerTests do
+  use Meagle.ConnCase
 
   test "GET /status" do
     conn = conn()

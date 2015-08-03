@@ -1,5 +1,5 @@
-defmodule RatesMeagle.PageControllerTest do
-  use RatesMeagle.ConnCase
+defmodule Meagle.PageControllerTest do
+  use Meagle.ConnCase
 
   test "GET /" do
     conn = get conn(), "/"

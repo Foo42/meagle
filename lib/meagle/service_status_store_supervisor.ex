@@ -1,4 +1,4 @@
-defmodule RatesMeagle.StatusStore.Supervisor do
+defmodule Meagle.StatusStore.Supervisor do
 	use Supervisor
 	require Logger
 
@@ -10,11 +10,11 @@ defmodule RatesMeagle.StatusStore.Supervisor do
 
 	def init(:ok) do
 		children = [
-			worker(RatesMeagle.StatusStore, [])
+			worker(Meagle.StatusStore, [])
 		]
-		Logger.info "RatesMeagle.StatusStore.Supervisor starting"
+		Logger.info "Meagle.StatusStore.Supervisor starting"
 		result = supervise(children, strategy: :one_for_one)
-		Logger.info "RatesMeagle.StatusStore.Supervisor started children #{inspect children}"
+		Logger.info "Meagle.StatusStore.Supervisor started children #{inspect children}"
 		result
 	end
 end

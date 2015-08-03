@@ -1,4 +1,4 @@
-defmodule RatesMeagle.StatusStore do
+defmodule Meagle.StatusStore do
   require Logger
 
   def start_link do

@@ -1,4 +1,4 @@
-defmodule RatesMeagle.ConnCase do
+defmodule Meagle.ConnCase do
   @moduledoc """
   This module defines the test case to be used by
   tests that require setting up a connection.
@@ -21,10 +21,10 @@ defmodule RatesMeagle.ConnCase do
       use Phoenix.ConnTest
 
       # Import URL helpers from the router
-      import RatesMeagle.Router.Helpers
+      import Meagle.Router.Helpers
 
       # The default endpoint for testing
-      @endpoint RatesMeagle.Endpoint
+      @endpoint Meagle.Endpoint
     end
   end
 

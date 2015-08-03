@@ -1,5 +1,5 @@
-defmodule RatesMeagle.PageController do
-  use RatesMeagle.Web, :controller
+defmodule Meagle.PageController do
+  use Meagle.Web, :controller
 
   def index(conn, _params) do
     render conn, "index.html"

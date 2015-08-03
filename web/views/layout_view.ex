@@ -1,3 +1,3 @@
-defmodule RatesMeagle.LayoutView do
-  use RatesMeagle.Web, :view
+defmodule Meagle.LayoutView do
+  use Meagle.Web, :view
 end

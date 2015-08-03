@@ -1,3 +1,3 @@
-defmodule RatesMeagle.PageViewTest do
-  use RatesMeagle.ConnCase, async: true
+defmodule Meagle.PageViewTest do
+  use Meagle.ConnCase, async: true
 end

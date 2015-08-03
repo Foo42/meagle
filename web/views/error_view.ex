@@ -1,5 +1,5 @@
-defmodule RatesMeagle.ErrorView do
-  use RatesMeagle.Web, :view
+defmodule Meagle.ErrorView do
+  use Meagle.Web, :view
 
   def render("404.html", _assigns) do
     "Page not found"

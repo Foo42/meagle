@@ -1,4 +1,4 @@
-defmodule RatesMeagle.ChannelCase do
+defmodule Meagle.ChannelCase do
   @moduledoc """
   This module defines the test case to be used by
   channel tests.
@@ -21,19 +21,19 @@ defmodule RatesMeagle.ChannelCase do
       use Phoenix.ChannelTest
 
       # Alias the data repository and import query/model functions
-      alias RatesMeagle.Repo
+      alias Meagle.Repo
       import Ecto.Model
       import Ecto.Query, only: [from: 2]
 
 
       # The default endpoint for testing
-      @endpoint RatesMeagle.Endpoint
+      @endpoint Meagle.Endpoint
     end
   end
 
   setup tags do
     unless tags[:async] do
-      Ecto.Adapters.SQL.restart_test_transaction(RatesMeagle.Repo, [])
+      Ecto.Adapters.SQL.restart_test_transaction(Meagle.Repo, [])
     end
 
     :ok

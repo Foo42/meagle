@@ -1,5 +1,5 @@
-defmodule RatesMeagle.Router do
-  use RatesMeagle.Web, :router
+defmodule Meagle.Router do
+  use Meagle.Web, :router
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -12,19 +12,19 @@ defmodule RatesMeagle.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", RatesMeagle do
+  scope "/", Meagle do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
   end
 
-  scope "/status", RatesMeagle do
+  scope "/status", Meagle do
     pipe_through :api
     get "/", StatusController, :index
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", RatesMeagle do
+  # scope "/api", Meagle do
   #   pipe_through :api
   # end
 end
