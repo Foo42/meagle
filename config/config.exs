@@ -6,11 +6,11 @@
 use Mix.Config
 
 # Configures the endpoint
-config :rates_meagle, Meagle.Endpoint,
+config :meagle, Meagle.Endpoint,
   url: [host: "localhost"],
   root: Path.dirname(__DIR__),
-  secret_key_base: "HCjzXb6A2IwG7Ib8DqNKaYCvaQU7OZAWWOVQKWKGtiG+iYsUeGLr5iKGH3XHvh62",
-  render_errors: [default_format: "html"],
+  secret_key_base: "S5lHmLrlrFuB36vbEU/VlvE4Yy2XMxqQaQ2Df4l3MlW5ZqkiZrzUIZi7AABpD2f0",
+  render_errors: [accepts: ~w(html json)],
   pubsub: [name: Meagle.PubSub,
            adapter: Phoenix.PubSub.PG2]
 

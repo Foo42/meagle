@@ -20,7 +20,6 @@ defmodule Meagle.ConnCase do
       # Import conveniences for testing with connections
       use Phoenix.ConnTest
 
-      # Import URL helpers from the router
       import Meagle.Router.Helpers
 
       # The default endpoint for testing
@@ -29,8 +28,6 @@ defmodule Meagle.ConnCase do
   end
 
   setup tags do
-    unless tags[:async] do
-    end
 
     :ok
   end

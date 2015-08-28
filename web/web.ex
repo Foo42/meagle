@@ -18,7 +18,7 @@ defmodule Meagle.Web do
 
   def model do
     quote do
-      use Ecto.Model
+      # Define common model functionality
     end
   end
 
@@ -26,7 +26,6 @@ defmodule Meagle.Web do
     quote do
       use Phoenix.Controller
 
-      # Import URL helpers from the router
       import Meagle.Router.Helpers
     end
   end
@@ -38,11 +37,10 @@ defmodule Meagle.Web do
       # Import convenience functions from controllers
       import Phoenix.Controller, only: [get_csrf_token: 0, get_flash: 2, view_module: 1]
 
-      # Import URL helpers from the router
-      import Meagle.Router.Helpers
-
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
+
+      import Meagle.Router.Helpers
     end
   end
 
@@ -55,6 +53,7 @@ defmodule Meagle.Web do
   def channel do
     quote do
       use Phoenix.Channel
+
     end
   end
 

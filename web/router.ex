@@ -6,16 +6,11 @@ defmodule Meagle.Router do
     plug :fetch_session
     plug :fetch_flash
     plug :protect_from_forgery
+    plug :put_secure_browser_headers
   end
 
   pipeline :api do
     plug :accepts, ["json"]
-  end
-
-  scope "/", Meagle do
-    pipe_through :browser # Use the default browser stack
-
-    get "/", PageController, :index
   end
 
   scope "/status", Meagle do
@@ -23,8 +18,10 @@ defmodule Meagle.Router do
     get "/", StatusController, :index
   end
 
-  socket "/ws", Meagle do
-     channel "status:*", StatusChannel
+  scope "/", Meagle do
+    pipe_through :browser # Use the default browser stack
+
+    get "/", PageController, :index
   end
 
   # Other scopes may use custom stacks.
