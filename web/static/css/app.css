@@ -78,3 +78,15 @@ form.link, form.button {
     border-bottom: 0;
   }
 }
+
+.status-panel {
+	padding:1em;	
+}
+.status-panel {
+	font-size: 2em;
+	color: white;
+	background-color: red;
+}
+.status-panel.status-ok {
+	background-color: green;
+}

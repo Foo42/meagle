@@ -1126,6 +1126,10 @@ for (var i = 0; i < len; ++i) {
 // to also remove its path from "config.paths.watched".
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 require("deps/phoenix_html/web/static/js/phoenix_html");
@@ -1135,16 +1139,15 @@ require("deps/phoenix_html/web/static/js/phoenix_html");
 // Local files can be imported directly using relative
 // paths "./socket" or full ones "web/static/js/socket".
 
-var _socket = require("./socket");
-
-var _socket2 = _interopRequireDefault(_socket);
-
 var _statusui = require("./statusui");
 
 var _statusui2 = _interopRequireDefault(_statusui);
+
+var foo = 'bar';
+exports.foo = foo;
 });
 
-;require.register("web/static/js/socket", function(exports, require, module) {
+require.register("web/static/js/socket", function(exports, require, module) {
 // NOTE: The contents of this file will only be executed if
 // you uncomment its entry in "web/static/js/app.js".
 
@@ -1208,8 +1211,6 @@ socket.connect({
 	// token: window.userToken
 });
 
-alert('socket.js is loaded');
-
 // Now that you are connected, you can join channels with a topic:
 var channel = socket.channel("status:updates", {});
 
@@ -1219,24 +1220,47 @@ channel.join().receive("ok", function (resp) {
 	console.log("Unabled to join", resp);
 });
 
-channel.on("update", function (msg) {
-	console.log(msg);
-});
-
-exports["default"] = socket;
+exports["default"] = channel;
 module.exports = exports["default"];
 });
 
 ;require.register("web/static/js/statusui", function(exports, require, module) {
-"use strict";
+'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
+Object.defineProperty(exports, '__esModule', {
+	value: true
 });
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _socket = require("./socket");
+
+var _socket2 = _interopRequireDefault(_socket);
+
 var ui = {};
 
-exports["default"] = ui;
-module.exports = exports["default"];
+function getElementForStatus(id) {
+	var existing = document.querySelector('.main-status-container .status-panel[data-target="' + id + '"]');
+	if (existing) {
+		return existing;
+	}
+	var panel = document.createElement('div');
+	panel.setAttribute('class', 'status-panel');
+	panel.setAttribute('data-target', id);
+	panel.innerText = id;
+	var container = document.querySelector('.main-status-container');
+	container.appendChild(panel);
+	return panel;
+}
+
+_socket2['default'].on("update", function (msg) {
+	console.log(msg);
+	var statusPanel = getElementForStatus(msg.id);
+	statusPanel.classList.toggle('status-ok', msg.status === 200);
+});
+
+exports['default'] = ui;
+module.exports = exports['default'];
 });
 
 require('web/static/js/app');

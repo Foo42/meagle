@@ -56,9 +56,7 @@ let socket = new Socket("/socket")
 
 socket.connect({
 	// token: window.userToken
-})
-
-alert('socket.js is loaded');
+});
 
 // Now that you are connected, you can join channels with a topic:
 let channel = socket.channel("status:updates", {})
@@ -71,8 +69,4 @@ channel.join()
 		console.log("Unabled to join", resp)
 	});
 
-channel.on("update", msg => {
-	console.log(msg)
-});
-
-export default socket
+export default channel

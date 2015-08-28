@@ -79,5 +79,17 @@ form.link, form.button {
   }
 }
 
+.status-panel {
+	padding:1em;	
+}
+.status-panel {
+	font-size: 2em;
+	color: white;
+	background-color: red;
+}
+.status-panel.status-ok {
+	background-color: green;
+}
+
 
 /*# sourceMappingURL=app.css.map*/
