@@ -10,6 +10,7 @@ defmodule Meagle.StatusStore do
       for {id, status} <- StatusUpdates.instance_status_stream do
         IO.puts "storing from stream..."
         store_status(:service_instance, id, status)
+        Meagle.Endpoint.broadcast! "status:updates", "update", %{id: id, status: status}
       end
     end
 

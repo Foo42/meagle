@@ -23,6 +23,10 @@ defmodule Meagle.Router do
     get "/", StatusController, :index
   end
 
+  socket "/ws", Meagle do
+     channel "status:*", StatusChannel
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", Meagle do
   #   pipe_through :api
