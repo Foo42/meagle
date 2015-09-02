@@ -9,4 +9,6 @@ RUN mix deps.get && mix compile
 
 EXPOSE 4000
 
+ENV MIX_ENV prod
+
 CMD ["mix","phoenix.server"] 
