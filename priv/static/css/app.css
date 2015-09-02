@@ -79,11 +79,23 @@ form.link, form.button {
   }
 }
 
-.status-panel {
+.status-group-panel {
 	padding:1em;	
 }
-.status-panel {
+.status-group-panel {
 	font-size: 2em;
+	color: white;
+	background-color: red;
+}
+.status-group-panel.status-ok {
+	background-color: green;
+}
+
+.status-panel {
+	padding:0.2em;	
+}
+.status-panel {
+	font-size: 0.5em;
 	color: white;
 	background-color: red;
 }

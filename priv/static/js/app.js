@@ -1239,8 +1239,31 @@ var _socket2 = _interopRequireDefault(_socket);
 
 var ui = {};
 
-function getElementForStatus(id) {
-	var existing = document.querySelector('.main-status-container .status-panel[data-target="' + id + '"]');
+var fullStatus = undefined;
+
+function init() {
+	fetch('/status').then(function (response) {
+		console.log('in then', response);
+		console.dir(response);
+		return response.json();
+	}).then(function (response) {
+		fullStatus = response.status;
+		var services = Object.keys(fullStatus);
+		services.forEach(function (serviceName) {
+			fullStatus[serviceName].forEach(function (serviceInstanceStatus) {
+				var el = getElementForStatus(serviceInstanceStatus.url, serviceName);
+				var serviceIsOk = serviceInstanceStatus.status.last_status === 200;
+				el.classList.toggle('status-ok', serviceIsOk);
+			});
+			updateGroupStatus(serviceName);
+		});
+	});
+	console.log('fetching status');
+}
+init();
+
+function getElementForStatus(id, group) {
+	var existing = document.querySelector('.main-status-container .status-group-panel .status-panel[data-target="' + id + '"]');
 	if (existing) {
 		return existing;
 	}
@@ -1248,15 +1271,42 @@ function getElementForStatus(id) {
 	panel.setAttribute('class', 'status-panel');
 	panel.setAttribute('data-target', id);
 	panel.innerText = id;
+	var container = getStatusGroupPanel(group || id);
+	container.appendChild(panel);
+	return panel;
+}
+
+function getStatusGroupPanel(groupName) {
+	var existing = document.querySelector('.main-status-container .status-group-panel[data-group-name="' + groupName + '"]');
+	if (existing) {
+		return existing;
+	}
+	var panel = document.createElement('div');
+	panel.setAttribute('class', 'status-group-panel');
+	panel.setAttribute('data-group-name', groupName);
+	panel.innerText = groupName;
 	var container = document.querySelector('.main-status-container');
 	container.appendChild(panel);
 	return panel;
 }
 
+function updateGroupStatus(groupName) {
+	var groupPanel = document.querySelector('.main-status-container .status-group-panel[data-group-name="' + groupName + '"]');
+	var badInstances = groupPanel.querySelector('.status-panel:not(.status-ok)');
+	groupPanel.classList.toggle('status-ok', !badInstances);
+}
+
 _socket2['default'].on("update", function (msg) {
 	console.log(msg);
-	var statusPanel = getElementForStatus(msg.id);
+
+	if (!fullStatus) {
+		return;
+	}
+	var groupName = document.querySelector('[data-target="' + msg.id + '"').parentElement.attributes['data-group-name'].value;
+	console.log('update for ' + groupName + ' ' + msg.id);
+	var statusPanel = getElementForStatus(msg.id, groupName);
 	statusPanel.classList.toggle('status-ok', msg.status === 200);
+	updateGroupStatus(groupName);
 });
 
 exports['default'] = ui;
