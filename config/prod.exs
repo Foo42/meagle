@@ -58,4 +58,7 @@ config :logger, level: :info
 
 # Finally import the config/prod.secret.exs
 # which should be versioned separately.
-import_config "prod.secret.exs"
+not_secret_secret = "0000000000000000000000000000000000000000000000000000000000000000"
+config :meagle, Meagle.Endpoint,
+  secret_key_base: not_secret_secret
+# import_config "prod.secret.exs"
