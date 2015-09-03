@@ -5,10 +5,10 @@ ADD . /code
 WORKDIR /code
 
 
+ENV MIX_ENV prod
 RUN mix deps.get && mix compile
 
+ENV PORT 4000
 EXPOSE 4000
-
-ENV MIX_ENV prod
 
 CMD ["mix","phoenix.server"] 
