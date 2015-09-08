@@ -67,12 +67,8 @@ defmodule Meagle.EnvironmentMonitor do
     end
 
     def handle_call({:status_update, update = {id,status}}, _from, state) do
-        Logger.info "environment processing update"
-        Logger.info "recieved update: #{inspect update}"
-        Logger.info "current state #{inspect state}"
-
         state = update_with_status(state,%{id: id, status: status})
-        Logger.info "updated state #{inspect state}"
+        
         {:reply, :ok, state}
     end
 

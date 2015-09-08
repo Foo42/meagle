@@ -1,10 +1,9 @@
 defmodule Meagle.StatusController do
   use Meagle.Web, :controller
-  import Meagle
 
   def index(conn, _params) do
-   all_status = EnvironmentRegistry.get_environment("INT")
-      |> EnvironmentMonitor.get_status
+   all_status = Meagle.EnvironmentRegistry.get_environment("INT")
+      |> Meagle.EnvironmentMonitor.get_status
       |> Enum.map(fn {service, instances} -> {service, Enum.map(instances, &format_instance_status(&1))} end)
       |> Enum.into(%{})
 
