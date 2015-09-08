@@ -4,3 +4,6 @@
 
 <div class="main-status-container">
 </div>
+<marquee direction="right">
+	<img src="/images/meagle.png" height="100px" >
+</marquee>
