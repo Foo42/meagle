@@ -56,7 +56,9 @@ function getStatusGroupPanel(groupName) {
 function updateGroupStatus(groupName) {
 	let groupPanel = document.querySelector(`.main-status-container .status-group-panel[data-group-name="${groupName}"]`);
 	let badInstances = groupPanel.querySelector('.status-panel:not(.status-ok)')
+	let goodInstances = groupPanel.querySelector('.status-panel.status-ok')
 	groupPanel.classList.toggle('status-ok', !badInstances);
+	groupPanel.classList.toggle('status-partial', (badInstances && goodInstances))
 }
 
 channel.on("update", msg => {

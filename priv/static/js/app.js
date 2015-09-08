@@ -1293,7 +1293,9 @@ function getStatusGroupPanel(groupName) {
 function updateGroupStatus(groupName) {
 	var groupPanel = document.querySelector('.main-status-container .status-group-panel[data-group-name="' + groupName + '"]');
 	var badInstances = groupPanel.querySelector('.status-panel:not(.status-ok)');
+	var goodInstances = groupPanel.querySelector('.status-panel.status-ok');
 	groupPanel.classList.toggle('status-ok', !badInstances);
+	groupPanel.classList.toggle('status-partial', badInstances && goodInstances);
 }
 
 _socket2['default'].on("update", function (msg) {

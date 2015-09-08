@@ -80,15 +80,25 @@ form.link, form.button {
 }
 
 .status-group-panel {
-	padding:1em;	
-}
-.status-group-panel {
 	font-size: 2em;
 	color: white;
 	background-color: red;
+	padding: 0.25em 0.5em;
 }
-.status-group-panel.status-ok {
+
+.status-group-panel.status-ok{
+	font-size: 1.3em;
+	color: lightgray;
 	background-color: green;
+	padding: 0.25em 0.5em;
+}
+
+.status-group-panel.status-partial{
+	background-color: orange;
+}
+
+.status-group-panel.status-ok .status-panel {
+	display:none;
 }
 
 .status-panel {
