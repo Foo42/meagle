@@ -13,7 +13,8 @@ defmodule Meagle do
       supervisor(Meagle.StatusStore.Supervisor, []),
       worker(Meagle.EnvironmentMonitor, ["INT"]),
       supervisor(Meagle.Endpoint, []),
-      supervisor(Meagle.ServiceInstanceMonitor.Supervisor, [])
+      supervisor(Meagle.ServiceInstanceMonitor.Supervisor, []),
+      worker(Meagle.EventRouter, [])
       # Here you could define other workers and supervisors as children
       # worker(Meagle.Worker, [arg1, arg2, arg3]),
     ]

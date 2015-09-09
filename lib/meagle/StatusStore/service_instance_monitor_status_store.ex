@@ -5,13 +5,10 @@ defmodule Meagle.StatusStore do
   def start_link do
     Logger.info "in StatusStore start_link"
     result = Agent.start_link(fn -> %{} end, name: __MODULE__)
-
+    x = StatusUpdates.instance_status_stream
     spawn_link fn ->
       for {id, status} <- StatusUpdates.instance_status_stream do
-        IO.puts "storing from stream..."
         store_status(:service_instance, id, status)
-        Meagle.Endpoint.broadcast! "status:updates", "update", %{id: id, status: status}
-        IO.puts "broadcast update on status:updates"
       end
     end
 

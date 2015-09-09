@@ -1301,14 +1301,14 @@ function updateGroupStatus(groupName) {
 _socket2['default'].on("update", function (msg) {
 	console.log(msg);
 
-	if (!fullStatus) {
+	if (!fullStatus || !msg.instance_url) {
 		return;
 	}
-	var groupName = document.querySelector('[data-target="' + msg.id + '"').parentElement.attributes['data-group-name'].value;
-	console.log('update for ' + groupName + ' ' + msg.id);
-	var statusPanel = getElementForStatus(msg.id, groupName);
+
+	console.log('update for ' + msg.service_name + ' ' + msg.instance_url);
+	var statusPanel = getElementForStatus(msg.instance_url, msg.service_name);
 	statusPanel.classList.toggle('status-ok', msg.status === 200);
-	updateGroupStatus(groupName);
+	updateGroupStatus(msg.service_name);
 });
 
 exports['default'] = ui;

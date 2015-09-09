@@ -47,7 +47,6 @@ defmodule Meagle.ServiceInstanceMonitor do
   defp try_check_status(state) do
     try do
       result = HTTPotion.get state[:target], [timeout: 45_000]
-      IO.puts "HTTP GET: #{inspect result}"
       %{status_code: status_code} = result 
       status_code
     rescue

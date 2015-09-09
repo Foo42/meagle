@@ -64,14 +64,14 @@ function updateGroupStatus(groupName) {
 channel.on("update", msg => {
 	console.log(msg)
 
-	if (!fullStatus) {
+	if (!fullStatus || !msg.instance_url) {
 		return;
 	}
-	let groupName = document.querySelector(`[data-target="${msg.id}"`).parentElement.attributes['data-group-name'].value
-	console.log(`update for ${groupName} ${msg.id}`);
-	let statusPanel = getElementForStatus(msg.id, groupName);
+
+	console.log(`update for ${msg.service_name} ${msg.instance_url}`);
+	let statusPanel = getElementForStatus(msg.instance_url, msg.service_name);
 	statusPanel.classList.toggle('status-ok', msg.status === 200);
-	updateGroupStatus(groupName);
+	updateGroupStatus(msg.service_name);
 });
 
 export default ui;

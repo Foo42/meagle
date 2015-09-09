@@ -18,13 +18,9 @@ defmodule Meagle.EnvironmentMonitor do
             |> Enum.map(fn {serviceName,instances} -> {serviceName, Enum.map(instances,initaliseInstanceStatus)} end)
             |> Enum.into %{}
 
-        Logger.info "Initial state = #{inspect initial_state}"
-
         # pull service instance status from status store (for the ones we have in there)
         initial_state = Meagle.StatusStore.get_all_status
             |> Enum.reduce(initial_state, &(update_with_status(&1, &2)))
-
-        Logger.info "Initial state = #{inspect initial_state}"
 
         # subscribe to status updates and update from them
         subscribe_to_status_instance_updates()
@@ -38,7 +34,11 @@ defmodule Meagle.EnvironmentMonitor do
     end
 
     defp update_with_status(state, %{id: updated_instance_url, status: new_instance_status}) do
-        
+        services_using_instance = get_services_using_instance(state, updated_instance_url)
+        services_using_instance 
+            |> Enum.map(&%{service_name: &1, instance_url: updated_instance_url, status: new_instance_status})
+            |> Enum.each(&Meagle.StatusUpdates.notify_status_update/1)
+
         update_instance_with_status = fn
             instance ->
                 case instance[:url] do
@@ -60,6 +60,16 @@ defmodule Meagle.EnvironmentMonitor do
             store_status(target_environment, update)
           end
         end 
+    end
+
+    defp get_services_using_instance(state, instance_url) do
+        has_instance = fn {_,v} -> 
+            Enum.any?(v,&(&1[:url] == instance_url))
+        end
+
+        to_service_name = fn {k,_} -> k end
+
+         state |> Enum.filter_map(has_instance, to_service_name)
     end
 
     defp store_status(target_environment, update) do
