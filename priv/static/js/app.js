@@ -1252,7 +1252,7 @@ function init() {
 		services.forEach(function (serviceName) {
 			fullStatus[serviceName].forEach(function (serviceInstanceStatus) {
 				var el = getElementForStatus(serviceInstanceStatus.url, serviceName);
-				var serviceIsOk = serviceInstanceStatus.status.last_status === 200;
+				var serviceIsOk = serviceInstanceStatus.status.last_status.summary === 'OK';
 				el.classList.toggle('status-ok', serviceIsOk);
 			});
 			updateGroupStatus(serviceName);
@@ -1307,7 +1307,7 @@ _socket2['default'].on("update", function (msg) {
 
 	console.log('update for ' + msg.service_name + ' ' + msg.instance_url);
 	var statusPanel = getElementForStatus(msg.instance_url, msg.service_name);
-	statusPanel.classList.toggle('status-ok', msg.status === 200);
+	statusPanel.classList.toggle('status-ok', msg.status.summary === 'OK');
 	updateGroupStatus(msg.service_name);
 });
 

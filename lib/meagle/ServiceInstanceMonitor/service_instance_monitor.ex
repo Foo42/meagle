@@ -10,7 +10,7 @@ defmodule Meagle.ServiceInstanceMonitor do
   end
 
   defp schedule_status_check(seconds) do
-    :erlang.send_after(seconds * 1000, self(), :check_status_timeout_elapsed)
+    :erlang.send_after(seconds * 1000, self(), :check_status_due)
   end
 
   #Server Implementation
@@ -24,7 +24,7 @@ defmodule Meagle.ServiceInstanceMonitor do
     {:noreply, state}
   end
 
-  def handle_info(:check_status_timeout_elapsed, state) do
+  def handle_info(:check_status_due, state) do
     Logger.info "in handle info, checking status..."
     result = try_check_status(state)
     target = state[:target]
@@ -46,11 +46,25 @@ defmodule Meagle.ServiceInstanceMonitor do
 
   defp try_check_status(state) do
     try do
-      result = HTTPotion.get state[:target], [timeout: 45_000]
-      %{status_code: status_code} = result 
-      status_code
+      HTTPotion.get(state[:target], [timeout: 45_000]) |> extract_status_result
     rescue
-      e in HTTPotion.HTTPError -> :http_error
+      e in HTTPotion.HTTPError -> 
+        %{summary: "Bad", detail: %{http_error: true}}
+    end
+  end
+
+  def extract_status_result(%{status_code: 200, body: body}) do
+    %{summary: "OK"} |> add_status_details(body)
+  end
+
+  def extract_status_result(%{status_code: status_code}) do
+    %{summary: "Bad", detail: %{status_code: status_code}}
+  end
+
+  defp add_status_details(result, body) do
+    case Poison.Parser.parse(body) do
+      {:ok, json_body} -> result |> Dict.put(:detail, json_body)
+      _ -> result
     end
   end
 end

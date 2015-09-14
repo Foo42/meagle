@@ -12,7 +12,7 @@ defmodule Meagle.StatusController do
 
   defp format_instance_status(%{url: url, status: status}) do
     now = :calendar.datetime_to_gregorian_seconds(:calendar.universal_time())
-    new_status = status |> Dict.update! :last_update, fn time_updated -> "#{now - :calendar.datetime_to_gregorian_seconds(time_updated)}s ago" end
+    new_status = status |> Dict.update(:last_update, "never", fn time_updated -> "#{now - :calendar.datetime_to_gregorian_seconds(time_updated)}s ago" end)
     %{url: url, status: new_status}
   end
 end
