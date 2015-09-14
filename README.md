@@ -1,19 +1,19 @@
 # Meagle
 
-To start your Phoenix app:
+Application to monitor services, and the service instances which make them up.
 
-  1. Install dependencies with `mix deps.get`
-  2. Create and migrate your database with `mix ecto.create && mix ecto.migrate`
-  3. Start Phoenix endpoint with `mix phoenix.server`
+##Running
+Best way to run is through Docker.
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+###Example docker command to run:
+`docker run --name meagle -d -p 4000:4000 -v /etc/meagle:/etc/meagle -e CONFIG_DIR="/etc/meagle" foo42/meagle_manual_build`
 
-Ready to run in production? Please [check our deployment guides](http://www.phoenixframework.org/docs/deployment).
+Note that meagle loads config from a directory specified in the CONFIG_DIR environment variable. Config is loaded from a file in this directory called `monitoringTargets.json` (this will change in future versions to allow multiple config files for different environments) This file is a json file of the following form:
 
-## Learn more
+```
+{
+	"MyServer": ["https://a.myservice.com/status","https://b.myservice.com/status"]
+}
 
-  * Official website: http://www.phoenixframework.org/
-  * Guides: http://phoenixframework.org/docs/overview
-  * Docs: http://hexdocs.pm/phoenix
-  * Mailing list: http://groups.google.com/group/phoenix-talk
-  * Source: https://github.com/phoenixframework/phoenix
+```
+The keys of the document are the logical services, with the values being an array of urls to instance status pages
