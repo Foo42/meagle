@@ -9,7 +9,6 @@ defmodule Meagle do
     children = [
       # Start the endpoint when the application starts
       worker(Meagle.StatusUpdates, []),
-      worker(Meagle.EnvironmentRegistry, []),
       supervisor(Meagle.StatusStore.Supervisor, []),
       worker(Meagle.EnvironmentMonitor, ["INT"]),
       supervisor(Meagle.Endpoint, []),

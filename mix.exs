@@ -17,7 +17,7 @@ defmodule Meagle.Mixfile do
   # Type `mix help compile.app` for more information
   def application do
     [mod: {Meagle, []},
-     applications: [:phoenix, :phoenix_html, :cowboy, :logger, :httpotion]]
+     applications: [:phoenix, :phoenix_html, :cowboy, :logger, :httpotion, :gproc]]
   end
 
   # Specifies which paths to compile per environment
@@ -33,6 +33,7 @@ defmodule Meagle.Mixfile do
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:cowboy, "~> 1.0"},
      {:ibrowse, github: "cmullaparthi/ibrowse", tag: "v4.1.2"},
-     {:httpotion, "~> 2.1.0"}]
+     {:httpotion, "~> 2.1.0"},
+     {:gproc, "~> 0.5.0"}]
   end
 end
