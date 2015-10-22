@@ -1285,6 +1285,11 @@ function getStatusGroupPanel(groupName) {
 	panel.setAttribute('class', 'status-group-panel');
 	panel.setAttribute('data-group-name', groupName);
 	panel.innerText = groupName;
+
+	var versionSpan = document.createElement('span');
+	versionSpan.setAttribute('class', 'versions');
+	panel.appendChild(versionSpan);
+
 	var container = document.querySelector('.main-status-container');
 	container.appendChild(panel);
 	return panel;
@@ -1294,8 +1299,20 @@ function updateGroupStatus(groupName) {
 	var groupPanel = document.querySelector('.main-status-container .status-group-panel[data-group-name="' + groupName + '"]');
 	var badInstances = groupPanel.querySelector('.status-panel:not(.status-ok)');
 	var goodInstances = groupPanel.querySelector('.status-panel.status-ok');
+
 	groupPanel.classList.toggle('status-ok', !badInstances);
 	groupPanel.classList.toggle('status-partial', badInstances && goodInstances);
+
+	var allInstances = groupPanel.querySelectorAll('.status-panel');
+	var versionSummary = Object.keys([].map.call(allInstances, function (panel) {
+		return panel.attributes['data-version'];
+	}).reduce(function (acc, version) {
+		if (version) {
+			acc[version] = true;
+		}
+		return acc;
+	}, {})).join(', ');
+	groupPanel.querySelector('.versions').innerText = versionSummary;
 }
 
 _socket2['default'].on("update", function (msg) {
@@ -1308,6 +1325,9 @@ _socket2['default'].on("update", function (msg) {
 	console.log('update for ' + msg.service_name + ' ' + msg.instance_url);
 	var statusPanel = getElementForStatus(msg.instance_url, msg.service_name);
 	statusPanel.classList.toggle('status-ok', msg.status.summary === 'OK');
+	if (msg.status.version) {
+		statusPanel.attributes['data-version'] = msg.status.version;
+	}
 	updateGroupStatus(msg.service_name);
 });
 

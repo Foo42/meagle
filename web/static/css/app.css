@@ -101,8 +101,15 @@ form.link, form.button {
 	display:none;
 }
 
+.status-group-panel .versions {
+  text-align: right;
+  float: right;
+  font-size: 0.7em;
+  vertical-align: bottom;
+}
+
 .status-panel {
-	padding:0.2em;	
+	padding:0.2em;
 }
 .status-panel {
 	font-size: 0.5em;

@@ -61,8 +61,11 @@ defmodule Meagle.ServiceInstanceMonitor do
 
   defp add_status_details(result, body) do
     case Poison.Parser.parse(body) do
-      {:ok, json_body} -> result |> Dict.put(:detail, json_body)
+      {:ok, json_body} -> result |> Dict.put(:detail, json_body) |> add_version(json_body)
       _ -> result
     end
   end
+
+  defp add_version(dict, %{"Version" => sha}), do: dict |> Dict.put(:version, sha)
+  defp add_version(dict, _), do: dict
 end
