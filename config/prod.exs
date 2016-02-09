@@ -14,6 +14,8 @@ use Mix.Config
 config :meagle, Meagle.Endpoint,
   http: [port: {:system, "PORT"}],
   url: [host: "pentlrgdocker002", port: 4000],
+  url: [host: "localhost"],
+  url: [host: "meagle.laterooms.com", port: 80],
   cache_static_manifest: "priv/static/manifest.json"
 
 # Do not print debug messages in production
