@@ -3,11 +3,11 @@ defmodule Meagle.ServiceInstanceMonitor do
   require Logger
   alias Meagle.StatusUpdates
 
-  def start_link(args) do
-    %{target: target} = args
-    Logger.info "#{inspect self()} target = #{target}"
-    GenServer.start_link(__MODULE__,%{supervisor: self(), target: target})
+  def start_link(%{"url" => url, "headers" => headers}) do
+    Logger.info "#{inspect self()} target = #{url}, headers = #{inspect headers}"
+    GenServer.start_link(__MODULE__,%{supervisor: self(), target: url, headers: headers})
   end
+  def start_link(args) when is_binary(args), do: start_link(%{"url" => args, "headers" => []})
 
   defp schedule_status_check(seconds) do
     :erlang.send_after(seconds * 1000, self(), :check_status_due)
@@ -15,7 +15,7 @@ defmodule Meagle.ServiceInstanceMonitor do
 
   #Server Implementation
   def init(args) do
-    GenServer.cast self(), {:begin_checking} 
+    GenServer.cast self(), {:begin_checking}
     {:ok, args}
   end
 
@@ -28,7 +28,7 @@ defmodule Meagle.ServiceInstanceMonitor do
     Logger.info "in handle info, checking status..."
     result = try_check_status(state)
     target = state[:target]
-    StatusUpdates.notify_status_update target, result 
+    StatusUpdates.notify_status_update target, result
     Logger.info "result is #{inspect result}"
     schedule_status_check 10
     {:noreply, state |> Dict.put(:last_status, result)}
@@ -45,11 +45,9 @@ defmodule Meagle.ServiceInstanceMonitor do
   end
 
   defp try_check_status(state) do
-    try do
-      HTTPotion.get(state[:target], [timeout: 45_000]) |> extract_status_result
-    rescue
-      e in HTTPotion.HTTPError -> 
-        %{summary: "Bad", detail: %{http_error: true}}
+    case HTTPoison.get(state.target, state.headers, [timeout: 45_000]) do
+      {:ok, result} -> extract_status_result(result)
+      {:error, reason} -> %{summary: "Bad", detail: %{http_error: true}}
     end
   end
 

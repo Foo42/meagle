@@ -17,11 +17,11 @@ defmodule Meagle.ServiceInstanceMonitor.Supervisor do
 	end
 
 	defp build_workers do
-		Meagle.Config.all |> 
+		Meagle.Config.all |>
 			Enum.map(fn {_service, instances} -> instances end) |>
 			List.flatten |>
-			Enum.map(fn instance_config -> 
-				worker(Meagle.ServiceInstanceMonitor,[%{target: instance_config}], id: instance_config)
+			Enum.map(fn instance_config ->
+				worker(Meagle.ServiceInstanceMonitor,[instance_config], id: instance_config)
 			end)
 	end
 end
