@@ -6,7 +6,7 @@
   "hackney": {:hex, :hackney, "1.4.8"},
   "httpoison": {:hex, :httpoison, "0.8.1"},
   "httpotion": {:hex, :httpotion, "2.1.0"},
-  "ibrowse": {:git, "git://github.com/cmullaparthi/ibrowse.git", "ea3305d21f37eced4fac290f64b068e56df7de80", [tag: "v4.1.2"]},
+  "ibrowse": {:hex, :ibrowse, "4.2.2"},
   "idna": {:hex, :idna, "1.0.3"},
   "mimerl": {:hex, :mimerl, "1.0.2"},
   "phoenix": {:hex, :phoenix, "0.17.1"},
