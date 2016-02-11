@@ -32,7 +32,6 @@ defmodule Meagle.Mixfile do
      {:phoenix_html, "~> 2.1"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:cowboy, "~> 1.0"},
-     {:ibrowse, github: "cmullaparthi/ibrowse", tag: "v4.1.2"},
      {:httpoison, "~> 0.8.1"},
      {:gproc, "~> 0.5.0"}]
   end
