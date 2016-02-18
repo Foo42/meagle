@@ -45,7 +45,7 @@ defmodule Meagle.ServiceInstanceMonitor do
   end
 
   defp try_check_status(state) do
-    case HTTPoison.get(state.target, state.headers, [timeout: 45_000]) do
+    case HTTPoison.get(state.target, state.headers, [recv_timeout: 45_000]) do
       {:ok, result} -> extract_status_result(result)
       {:error, reason} -> %{summary: "Bad", detail: %{http_error: true}}
     end
